@@ -1,0 +1,65 @@
+{% extends "dashboard/teacher_dashboard.html" %}
+{% load static %}
+
+{% block teacher_dash %}
+<section class="h-screen">
+<section class="mb-10">
+    <div class="flex justify-between items-center">
+        <h2 class="text-2xl font-bold">My Quizzes</h2>
+        <a href="{% url 'quiz_create' %}"
+           class="bg-blue-500 text-white px-4 py-2 rounded shadow">
+            + Create Quiz
+        </a>
+    </div>
+</section>
+
+<section class="grid gap-6">
+    {% for quiz in quizzes %}
+        <div class="bg-gray-100 p-6 rounded shadow">
+            <div class="flex justify-between items-center">
+                <div>
+                    <h3 class="text-xl font-semibold">{{ quiz.title }}</h3>
+                    <p class="text-sm text-gray-600">{{ quiz.description }}</p>
+                    <p class="mt-1">
+                        ⏱ {{ quiz.duration }} min |
+                        🎯 {{ quiz.total_marks }} marks |
+                            Start in {{ quiz.start_time }} |
+                        Status:
+                        {% if quiz.is_active %}
+                            <span class="text-green-600 font-semibold">Active</span>
+                        {% else %}
+                            <span class="text-red-600 font-semibold">Inactive</span>
+                        {% endif %}
+                    </p>
+                </div>
+
+                <div class="flex gap-3">
+                    <a href="{% url 'add_question' quiz.id %}"
+                       class="bg-indigo-500 text-white px-3 py-1 rounded">
+                        Add Question
+                    </a>
+
+                    <a href="{% url 'quiz_update' quiz.id %}"
+                       class="bg-yellow-500 text-white px-3 py-1 rounded">
+                        Edit
+                    </a>
+
+                    <a href="{% url 'quiz_toggle' quiz.id %}"
+                       class="bg-purple-500 text-white px-3 py-1 rounded">
+                        {% if quiz.is_active %}Unpublish{% else %}Publish{% endif %}
+                    </a>
+
+                    <a href="{% url 'quiz_delete' quiz.id %}"
+                       onclick="return confirm('Are you sure?')"
+                       class="bg-red-500 text-white px-3 py-1 rounded">
+                        Delete
+                    </a>
+                </div>
+            </div>
+        </div>
+    {% empty %}
+        <p>No quizzes created yet.</p>
+    {% endfor %}
+</section>
+</section>
+{% endblock %}

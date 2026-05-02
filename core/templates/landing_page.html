@@ -1,0 +1,196 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+    <section
+    id="home"
+  class="relative bg-cover bg-center h-screen py-24"
+  style="background-image: url('{% static 'images/landing_image.jpg' %}');">
+
+  
+  <div class="absolute inset-0 bg-black/50"></div>
+
+  <div class="relative max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-10 items-center">
+
+    
+    <div class="text-white">
+      <h1 class="text-4xl md:text-5xl font-bold mb-4">
+        Smart Quiz Web System
+      </h1>
+
+      <h2 class="text-xl mb-6 opacity-90">
+        A Modern Online Quiz & Assessment Platform
+      </h2>
+
+      <p class="mb-8 leading-relaxed opacity-90">
+        Create quizzes, manage students, and track performance effortlessly.
+        Smart Quiz helps teachers conduct assessments, students learn smarter,
+        and admins manage everything from one place.
+      </p>
+
+      <div class="flex gap-4">
+        <a href="{% url 'sign_up' %}"
+           class="bg-blue-600 px-6 py-3 rounded-lg hover:bg-blue-700 transition">
+          Get Started
+        </a>
+
+        
+      </div>
+    </div>
+
+  </div>
+
+</section>
+
+<section id="features" class="py-20 bg-gray-50 ">
+
+  <div class="max-w-7xl mx-auto px-6 py-6">
+
+    
+    <div class="text-center mb-12">
+      <h2 class="text-3xl font-bold text-gray-900 mb-3">
+        Platform Features
+      </h2>
+      <p class="text-gray-600">
+        Smart Quiz is designed for students, teachers, and administrators.
+      </p>
+    </div>
+
+    
+    <div class="grid md:grid-cols-3 gap-8">
+
+      
+      <div class="bg-white rounded-xl shadow p-8 text-center hover:shadow-lg transition">
+        <div class="text-4xl mb-4">📘</div>
+
+        <h3 class="text-xl font-semibold mb-4">Student</h3>
+
+        <ul class="text-gray-600 space-y-2">
+          <li>Attempt quizzes</li>
+          <li>View results</li>
+          <li>Track performance</li>
+        </ul>
+      </div>
+
+      
+      <div class="bg-white rounded-xl shadow p-8 text-center hover:shadow-lg transition">
+        <div class="text-4xl mb-4">👨‍🏫</div>
+
+        <h3 class="text-xl font-semibold mb-4">Teacher</h3>
+
+        <ul class="text-gray-600 space-y-2">
+          <li>Create quizzes</li>
+          <li>Manage questions</li>
+          <li>View student reports</li>
+        </ul>
+      </div>
+
+      
+      <div class="bg-white rounded-xl shadow p-8 text-center hover:shadow-lg transition">
+        <div class="text-4xl mb-4">👨‍💼</div>
+
+        <h3 class="text-xl font-semibold mb-4">Admin</h3>
+
+        <ul class="text-gray-600 space-y-2">
+          <li>Manage users</li>
+          <li>Manage classes</li>
+          <li>Monitor system</li>
+        </ul>
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+<section id="how_it_works" class="py-20 bg-white">
+
+  <div class="max-w-7xl mx-auto px-6 py-6">
+
+    
+    <div class="text-center mb-12">
+      <h2 class="text-3xl font-bold text-gray-900 mb-3">
+        How It Works
+      </h2>
+      <p class="text-gray-600">
+        Get started in just four simple steps.
+      </p>
+    </div>
+
+    
+    <div class="grid md:grid-cols-4 gap-8 text-center">
+
+      <div class="p-6">
+        <div class="text-4xl mb-4">📝</div>
+        <h3 class="font-semibold mb-2">Register / Login</h3>
+        <p class="text-gray-600 text-sm">
+          Create an account or sign in to access the system.
+        </p>
+      </div>
+
+      <div class="p-6">
+        <div class="text-4xl mb-4">📚</div>
+        <h3 class="font-semibold mb-2">Create / Attempt Quiz</h3>
+        <p class="text-gray-600 text-sm">
+          Teachers create quizzes, students attempt them.
+        </p>
+      </div>
+
+      <div class="p-6">
+        <div class="text-4xl mb-4">✅</div>
+        <h3 class="font-semibold mb-2">Submit Answers</h3>
+        <p class="text-gray-600 text-sm">
+          Submit responses once the quiz is complete.
+        </p>
+      </div>
+
+      <div class="p-6">
+        <div class="text-4xl mb-4">📊</div>
+        <h3 class="font-semibold mb-2">View Results</h3>
+        <p class="text-gray-600 text-sm">
+          Instantly see scores and performance analytics.
+        </p>
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<section class="py-20 bg-blue-600">
+
+  <div class="max-w-4xl mx-auto text-center px-6 py-12 text-white">
+
+    <h2 class="text-3xl font-bold mb-4">
+      Ready to start learning?
+    </h2>
+
+    <p class="mb-8 opacity-90">
+      Join Smart Quiz today and experience modern online assessments.
+    </p>
+
+    <div class="flex justify-center gap-4">
+
+      <a href="{% url 'sign_up' %}"
+         class="bg-white text-blue-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition">
+        Register as Student
+      </a>
+
+      <a href="{% url 'sign_in' %}"
+         class="border border-white px-6 py-3 rounded-lg hover:bg-white hover:text-blue-600 transition">
+        Login
+      </a>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+
+
+{% endblock content %}

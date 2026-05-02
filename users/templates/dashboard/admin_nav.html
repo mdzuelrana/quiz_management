@@ -1,0 +1,55 @@
+<nav class="bg-black flex justify-between items-center px-6 py-4 h-20">
+
+        <!-- Logo -->
+        <h2 class="text-white font-bold text-lg">
+            Smart Quiz
+        </h2>
+
+        <!-- Menu -->
+        <div class="hidden md:flex gap-8">
+            <a href="{% url 'admin_dashboard' %}" class="text-white font-semibold">Dashboard</a>
+            <a href="{% url 'admin_user_list' %}" class="text-white font-semibold">Users</a>
+            <a href="{% url 'admin_quiz_list' %}" class="text-white font-semibold">Quizzes</a>
+            
+        </div>
+
+        <!-- Profile Dropdown -->
+        <div class="relative">
+
+            <!-- Avatar -->
+            <button id="user-menu-button" class="focus:outline-none">
+
+                <img
+                    class="h-8 w-8 md:h-12 md:w-12 rounded-full object-cover border-2 border-white"
+                    src="{{ request.user.profile_image.url }}"
+                    alt="avatar"
+                >
+
+            </button>
+
+            <!-- Dropdown -->
+            <div id="user-menu"
+                 class="hidden absolute right-0 mt-2 w-48 bg-white rounded shadow-lg">
+
+                <a href="{% url 'admin_dashboard' %}"
+                   class="block px-4 py-2 hover:bg-gray-100">
+                    Dashboard
+                </a>
+
+                <a href="{% url 'profile' %}"
+                   class="block px-4 py-2 hover:bg-gray-100">
+                    Profile
+                </a>
+
+                <form method="POST" action="{% url 'logout' %}">
+                    {% csrf_token %}
+                    <button
+                        class="w-full text-left px-4 py-2 hover:bg-gray-100">
+                        Logout
+                    </button>
+                </form>
+
+            </div>
+        </div>
+
+    </nav>

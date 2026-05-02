@@ -1,0 +1,73 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Quiz</title>
+    <link rel="stylesheet" href="{% static 'css/output.css' %}">
+</head>
+
+<body class="font-sans min-h-screen bg-gray-100">
+
+    <!-- 🔥 NAVBAR CONTROL -->
+    {% if request.user.is_authenticated %}
+
+        {% if request.user.role == "admin" %}
+            {% include "dashboard/admin_nav.html" %}
+
+        {% elif request.user.role == "teacher" %}
+            {% include "dashboard/teacher_nav.html" %}
+
+        {% else %}
+            {% include "dashboard/student_nav.html" %}
+        {% endif %}
+
+    {% else %}
+        {% include "non_logged_nav.html" %}
+    {% endif %}
+
+
+    <!-- 🔥 MAIN CONTENT -->
+    <main class="h-auto">
+        {% block content %}
+        {% endblock %}
+    </main>
+
+
+    <!-- 🔥 FOOTER -->
+    {% include "footer.html" %} 
+
+
+    {% comment %} <script>
+        const btn = document.getElementById("menu-toggle");
+        if (btn) {
+            btn.addEventListener("click", function () {
+                document.getElementById("mobile-menu")
+                ?.classList.toggle("hidden");
+            });
+        }
+    </script> {% endcomment %}
+    <script>
+
+    const menuBtn = document.getElementById("user-menu-button");
+    const menu = document.getElementById("user-menu");
+
+    if (menuBtn) {
+        menuBtn.addEventListener("click", function (e) {
+            e.stopPropagation();
+            menu.classList.toggle("hidden");
+        });
+    }
+
+    // Close dropdown when clicking outside
+    window.addEventListener("click", function (e) {
+        if (menu && !menu.contains(e.target)) {
+            menu.classList.add("hidden");
+        }
+    });
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+{% block content %}
+{% comment %} {% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+
+    <link rel="stylesheet" href="{% static 'css/output.css' %}">
+</head>
+
+<body class="bg-gray-100">
+
+<!-- 🔥 NAVBAR -->
+<header>
+    <nav class="bg-black flex justify-between items-center px-6 py-4">
+
+        <!-- Logo -->
+        <h2 class="text-white font-bold text-lg">
+            Smart Quiz
+        </h2>
+
+        <!-- Menu -->
+        <div class="hidden md:flex gap-8">
+            <a href="{% url 'admin_dashboard' %}" class="text-white font-semibold">Dashboard</a>
+            <a href="{% url 'admin_user_list' %}" class="text-white font-semibold">Users</a>
+            <a href="{% url 'admin_quiz_list' %}" class="text-white font-semibold">Quizzes</a>
+            <a href="#" class="text-white font-semibold">Classes</a>
+        </div>
+
+        <!-- Profile Dropdown -->
+        <div class="relative">
+
+            <!-- Avatar -->
+            <button id="user-menu-button" class="focus:outline-none">
+
+                <img
+                    class="h-10 w-10 rounded-full object-cover border-2 border-white"
+                    src="{{ request.user.profile_image.url }}"
+                    alt="avatar"
+                >
+
+            </button>
+
+            <!-- Dropdown -->
+            <div id="user-menu"
+                 class="hidden absolute right-0 mt-2 w-48 bg-white rounded shadow-lg">
+
+                <a href="{% url 'admin_dashboard' %}"
+                   class="block px-4 py-2 hover:bg-gray-100">
+                    Dashboard
+                </a>
+
+                <a href="{% url 'profile' %}"
+                   class="block px-4 py-2 hover:bg-gray-100">
+                    Profile
+                </a>
+
+                <form method="POST" action="{% url 'logout' %}">
+                    {% csrf_token %}
+                    <button
+                        class="w-full text-left px-4 py-2 hover:bg-gray-100">
+                        Logout
+                    </button>
+                </form>
+
+            </div>
+        </div>
+
+    </nav>
+</header> {% endcomment %}
+
+<!-- 🔥 MAIN -->
+<main class="p-6">
+
+    {% block admin_dash %}
+    {% endblock %}
+
+</main>
+{% endblock content %}
+{% comment %} 
+<!-- 🔥 FOOTER -->
+{% include "footer.html" %} 
+
+<!-- 🔥 JS FIXED -->
+<script>
+
+    const menuBtn = document.getElementById("user-menu-button");
+    const menu = document.getElementById("user-menu");
+
+    if (menuBtn) {
+        menuBtn.addEventListener("click", function (e) {
+            e.stopPropagation();
+            menu.classList.toggle("hidden");
+        });
+    }
+
+    // Close dropdown when clicking outside
+    window.addEventListener("click", function (e) {
+        if (menu && !menu.contains(e.target)) {
+            menu.classList.add("hidden");
+        }
+    });
+
+</script>
+
+</body>
+</html> {% endcomment %}

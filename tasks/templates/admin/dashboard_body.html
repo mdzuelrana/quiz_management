@@ -1,0 +1,31 @@
+{% extends "dashboard/admin_dashboard.html" %}
+{% load static %}
+{% block admin_dash %}
+    <section class="flex items-center">
+        <div class="flex justify-between items-center bg-blue-400 w-full rounded px-6 py-6 shadow-lg">
+            <div class="">
+                <h3 class="text-white">Welcome, {{user.username}}</h3>
+                <h3 class="text-white">Role: {{user.role}} </h3>
+            </div>
+            <div>
+                <img src="{% static 'images/cap.png' %}" alt="">
+            </div>
+        </div>
+    </section>
+    <section class="my-40">
+        <h3 class="py-6 font-bold">About Quiz</h3>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-40">
+            <div class="bg-gray-100 rounded-sm shadow-lg flex justify-center h-20 items-center">
+                <h3 class="font-semibold">Total User: {{total_users}} </h3>
+            </div>
+            <div class="bg-gray-100 rounded-sm shadow-lg flex justify-center h-20 items-center">
+                <h3 class="font-semibold text-black">Total Quiz: {{total_quiz}} </h3>
+            </div>
+            <div class="bg-gray-100 flex justify-center items-center rounded-sm h-20 shadow-lg">
+                <h3 class="font-semibold text-black">
+                    Total Attempted Student: {{total_attempted_students}}
+                </h3>
+            </div>
+        </div>
+    </section>
+{% endblock admin_dash %}

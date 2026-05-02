@@ -1,0 +1,44 @@
+{% extends "dashboard/teacher_dashboard.html" %}
+
+{% block teacher_dash %}
+<section class="h-screen">
+<h2 class="text-2xl font-bold mb-6">
+    Student Results - Select Quiz
+</h2>
+
+<table class="w-full bg-white shadow rounded">
+    <thead class="bg-gray-200">
+        <tr>
+            <th class="p-2 text-left">Quiz Title</th>
+            <th class="p-2 text-center">Total Marks</th>
+            <th class="p-2 text-center">Action</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for quiz in quizzes %}
+        <tr class="border-t">
+            <td class="p-2 font-semibold">
+                {{ quiz.title }}
+            </td>
+            <td class="p-2 text-center">
+                {{ quiz.total_marks }}
+            </td>
+            <td class="p-2 text-center">
+                <a href="{% url 'teacher_quiz_results' quiz.id %}"
+                   class="bg-blue-500 text-white px-4 py-1 rounded">
+                    View Results
+                </a>
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="3" class="text-center py-6 text-gray-500">
+                No quizzes found.
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</section>
+{% endblock %}

@@ -1,0 +1,55 @@
+{% extends "dashboard/student_dashboard.html" %}
+
+{% block student_dash %}
+<section class="h-screen">
+<section class="mb-8">
+    <h2 class="text-2xl font-bold">My Quiz Results</h2>
+</section>
+
+<section class="overflow-x-auto">
+    <table class="min-w-full bg-white shadow rounded">
+        <thead class="bg-gray-200">
+            <tr>
+                <th class="px-4 py-2 text-left">Quiz</th>
+                <th class="px-4 py-2">My Score</th>
+                {% comment %} <th class="px-4 py-2">Correct</th>
+                <th class="px-4 py-2">Wrong</th> {% endcomment %}
+                <th class="px-4 py-2">Total Marks</th>
+                <th class="px-4 py-2">Date</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for result in results %}
+            <tr class="border-t text-center">
+                <td class="px-4 py-2 text-left font-semibold">
+                    {{ result.quiz.title }}
+                </td>
+                <td class="px-4 py-2 text-green-600 font-bold">
+                    {{ result.score }}
+                </td>
+                {% comment %} <td class="px-4 py-2">
+                    {{ result.correct_answers }}
+                </td>
+                <td class="px-4 py-2 text-red-500">
+                    {{ result.wrong_answers }}
+                </td> {% endcomment %}
+                <td class="px-4 py-2">
+                    {{ result.quiz.total_marks }}
+                </td>
+                <td class="px-4 py-2 text-sm text-gray-600">
+                    {{ result.submitted_at|date:"d M Y, h:i A" }}
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="6" class="text-center py-6 text-gray-500">
+                    You have not attempted any quiz yet.
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</section>
+</section>
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends "dashboard/student_dashboard.html" %}
+
+{% block student_dash %}
+<section class="min-h-screen">
+<h2 class="text-2xl font-bold mb-6">Available Quizzes</h2>
+
+<div class="grid gap-6">
+    {% for quiz in quizzes %}
+        <div class="bg-gray-100 p-6 rounded shadow">
+            <h3 class="text-xl font-semibold">{{ quiz.title }}</h3>
+            <p>{{ quiz.description }}</p>
+
+            <p class="mt-2 text-sm">
+                ⏱ {{ quiz.duration }} min |
+                🎯 {{ quiz.total_marks }} marks
+            </p>
+
+            <a href="{% url 'start_quiz' quiz.id %}"
+               class="inline-block mt-4 bg-blue-500 text-white px-4 py-2 rounded">
+                Start Quiz
+            </a>
+        </div>
+    {% empty %}
+        <p>No active quizzes right now.</p>
+    {% endfor %}
+</div>
+</section>
+{% endblock %}

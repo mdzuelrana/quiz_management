@@ -1,0 +1,31 @@
+{% extends "dashboard/student_dashboard.html" %}
+{% load quiz_extras %}
+
+{% block student_dash %}
+<h2 class="text-2xl font-bold mb-6">{{ quiz.title }}</h2>
+
+<form method="POST">
+    {% csrf_token %}
+
+    {% for q in questions %}
+        <div class="mb-6 bg-gray-100 p-4 rounded">
+            <p class="font-semibold">{{ forloop.counter }}. {{ q.text }}</p>
+
+            {% for opt in "ABCD" %}
+                <label class="block mt-2">
+                    <input type="radio"
+                           name="{{ q.id }}"
+                           value="{{ opt }}"
+                           required>
+                    {{ opt }}.
+                    {{ q|get_option:opt }}
+                </label>
+            {% endfor %}
+        </div>
+    {% endfor %}
+
+    <button class="bg-green-500 text-white px-6 py-2 rounded">
+        Submit Quiz
+    </button>
+</form>
+{% endblock %}

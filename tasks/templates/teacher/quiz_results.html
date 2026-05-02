@@ -1,0 +1,49 @@
+{% extends "dashboard/teacher_dashboard.html" %}
+
+{% block teacher_dash %}
+<section class="h-screen">
+<h2 class="text-2xl font-bold mb-4">
+    Results - {{ quiz.title }}
+</h2>
+
+<table class="w-full bg-white shadow rounded">
+    <thead class="bg-gray-200">
+        <tr>
+            <th class="p-2 text-left">Rank</th>
+            <th class="p-2 text-left">Student</th>
+            <th class="p-2 text-center">Score</th>
+            <th class="p-2 text-center">Total</th>
+            <th class="p-2 text-center">Submitted At</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for attempt in attempts %}
+        <tr class="border-t text-center">
+            <td class="p-2 font-bold">
+                {{ forloop.counter }}
+            </td>
+            <td class="p-2 text-left">
+                {{ attempt.student.username }}
+            </td>
+            <td class="p-2 text-green-600 font-bold">
+                {{ attempt.score }}
+            </td>
+            <td class="p-2">
+                {{ quiz.total_marks }}
+            </td>
+            <td class="p-2 text-sm text-gray-600">
+                {{ attempt.submitted_at|date:"d M Y, h:i A" }}
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="5" class="text-center py-6 text-gray-500">
+                No student attempted this quiz yet.
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</section>
+{% endblock %}

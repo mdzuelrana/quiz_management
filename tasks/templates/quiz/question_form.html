@@ -1,0 +1,98 @@
+{% extends "dashboard/teacher_dashboard.html" %}
+{% load static %}
+
+{% block teacher_dash %}
+
+<section class="max-w-2xl mx-auto bg-gray-100 p-6 rounded shadow">
+    <h2 class="text-2xl font-bold mb-4">
+        {% if form.instance.pk %}Update Question{% else %}Add Question{% endif %}
+    </h2>
+
+    {% if quiz %}
+        <p class="mb-4 text-sm text-gray-600">
+            Quiz: <strong>{{ quiz.title }}</strong>
+        </p>
+    {% endif %}
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <div class="mb-4">
+            <label class="font-semibold">Question</label>
+            {{ form.text }}
+        </div>
+
+        <div class="grid grid-cols-2 gap-4">
+            <div>
+                <label>Option A</label>
+                {{ form.option_a }}
+            </div>
+            <div>
+                <label>Option B</label>
+                {{ form.option_b }}
+            </div>
+            <div>
+                <label>Option C</label>
+                {{ form.option_c }}
+            </div>
+            <div>
+                <label>Option D</label>
+                {{ form.option_d }}
+            </div>
+        </div>
+
+        <div class="mt-4">
+            <label class="font-semibold">Correct Answer</label>
+            {{ form.correct_answer }}
+        </div>
+
+        <div class="mt-4">
+            <label class="font-semibold">Marks</label>
+            {{ form.marks }}
+        </div>
+
+        <button type="submit"
+                class="mt-6 bg-green-500 text-white px-4 py-2 rounded shadow">
+            Save Question
+        </button>
+
+        <a href="{% url 'quiz_list' %}" class="ml-3 text-gray-600">
+            Back
+        </a>
+    </form>
+</section>
+
+<section class="max-w-4xl mx-auto my-12">
+    <h3 class="text-xl font-bold mb-4">Questions in this Quiz</h3>
+
+    {% if questions %}
+        <div class="space-y-4 my-12">
+            {% for q in questions %}
+                <div class="bg-white p-4 rounded shadow flex justify-between">
+                    <div>
+                        <p class="font-semibold">{{ forloop.counter }}. {{ q.text }}</p>
+                        <p class="text-sm text-gray-600">
+                            ✔ Correct: {{ q.correct_answer }} |
+                            🎯 Marks: {{ q.marks }}
+                        </p>
+                    </div>
+
+                    <div class="flex gap-3">
+                        <a href="{% url 'question_update' q.id %}"
+                           class="text-blue-500 font-semibold">
+                            Edit
+                        </a>
+                        <a href="{% url 'question_delete' q.id %}"
+                           class="text-red-500 font-semibold"
+                           onclick="return confirm('Delete this question?')">
+                            Delete
+                        </a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p class="text-gray-500">No questions added yet.</p>
+    {% endif %}
+</section>
+{% endblock %}
