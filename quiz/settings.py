@@ -24,9 +24,9 @@ AUTH_USER_MODEL = 'users.CustomUser'
 SECRET_KEY = 'django-insecure-@_1l3=7pj&dv#=+4_=hzklm_rk#1au(*ic7@ke^r6r_s+_y75l'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['.render.com', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['quiz-management-8dy1.onrender.com','.render.com', 'localhost', '127.0.0.1']
 
 CSRF_TRUSTED_ORIGIN=['https://*.onrender.com',"http://localhost:8000",'http://127.0.0.1:8000']
 # Application definition
