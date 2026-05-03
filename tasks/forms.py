@@ -61,6 +61,7 @@ class StyledFormMixin:
 
 class QuizForm(StyledFormMixin,forms.ModelForm):
     start_time = forms.DateTimeField(
+         input_formats=["%Y-%m-%dT%H:%M"],
         widget=forms.DateTimeInput(
             attrs={
                 "type": "datetime-local",

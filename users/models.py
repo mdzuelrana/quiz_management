@@ -9,8 +9,8 @@ class CustomUser(AbstractUser):
         ('admin', 'Admin'),
     )
 
-    role = models.CharField(max_length=20, choices=ROLE_CHOICES)
+    role = models.CharField(max_length=20, choices=ROLE_CHOICES,default='student')
     profile_image=models.ImageField(upload_to='profile_images',blank=True,null=True,default='profile_images/admin.jfif')
-    bio=models.CharField(blank=True)
+    bio = models.CharField(max_length=255, blank=True)
     def __str__(self):
         return self.username 

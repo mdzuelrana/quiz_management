@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-@_1l3=7pj&dv#=+4_=hzklm_rk#1au(*ic7@ke^r6r_s+_y75l
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['.render.com', 'localhost', '127.0.0.1']
 
 CSRF_TRUSTED_ORIGIN=['https://*.onrender.com',"http://localhost:8000",'http://127.0.0.1:8000']
 # Application definition
@@ -90,15 +90,21 @@ WSGI_APPLICATION = 'quiz.wsgi.application'
 #         'NAME': BASE_DIR / 'db.sqlite3',
 #     }
 # }
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'quiz_management',
+#         'USER': 'postgres',
+#         'PASSWORD': 'zuel',
+#         'HOST': 'localhost',
+#         'PORT': 5432
+#     }
+# }
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'quiz_management',
-        'USER': 'postgres',
-        'PASSWORD': 'zuel',
-        'HOST': 'localhost',
-        'PORT': 5432
-    }
+    'default': dj_database_url.parse(
+        'postgresql://quiz_lpmr_user:XS3c1he9ge7jAITtRMCDnvAOLuSUXHpS@dpg-d7rhue28qa3s73dha2cg-a.oregon-postgres.render.com/quiz_lpmr'
+    )
 }
 
 

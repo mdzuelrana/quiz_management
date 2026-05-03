@@ -1,5 +1,6 @@
 from django.contrib.auth.forms import UserCreationForm,AuthenticationForm
 from django.contrib.auth import get_user_model
+from django.contrib.auth.models import Group
 from django import forms
 from tasks.forms import StyledFormMixin
 import re 
@@ -13,20 +14,29 @@ User = get_user_model()
 class ProfileUpdateForm(StyledFormMixin,forms.ModelForm):
     class Meta:
         model = User
-        fields = ["username", "email","bio", "profile_image"]
+        fields = ["username",'first_name', 'last_name', "email","bio", "profile_image"]
 
 
 class CustomPasswordChangeForm(StyledFormMixin,PasswordChangeForm):
     pass
 
 class CustomRegisterForm(StyledFormMixin,forms.ModelForm):
+    ROLE_CHOICES = (
+        ('student', 'Student'),
+        ('teacher', 'Teacher')
+        
+    )
     password=forms.CharField(widget=forms.PasswordInput)
     confirm_password=forms.CharField(widget=forms.PasswordInput)
+    role = forms.ChoiceField(
+        choices=ROLE_CHOICES,
+        widget=forms.RadioSelect
+    )
     class Meta:
         model = User
-        fields = ('username','first_name','last_name','email')
+        fields = ('username','first_name','last_name','email','role')
     
-    def cleaned_password(self):
+    def clean_password(self):
         password=self.cleaned_data.get('password')
         errors=[]
         
@@ -58,6 +68,27 @@ class CustomRegisterForm(StyledFormMixin,forms.ModelForm):
         if email_exists:
             raise forms.ValidationError('Email already existed')
         return email
+    def save(self, commit=True):
+        user = super().save(commit=False)
+
+        user.role = self.cleaned_data.get('role')
+        user.set_password(self.cleaned_data.get('password'))
+        user.is_active = False 
+
+        if commit:
+            user.save()
+
+            group_name = user.role.capitalize()
+
+            # ALWAYS create if missing
+            group, created = Group.objects.get_or_create(name=group_name)
+
+            # user.groups.clear()  # optional: remove old groups
+            user.groups.add(group)
+
+            print("✅ Assigned group:", group_name)
+
+        return user
         
         
         

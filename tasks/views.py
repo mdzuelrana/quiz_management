@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils import timezone
+from datetime import timedelta
 from django.contrib.auth.decorators import login_required
 from .models import Quiz, Question,StudentAnswer,StudentQuizAttempt
 from .forms import QuizForm, QuestionForm
@@ -237,31 +238,82 @@ def start_quiz(request, quiz_id):
 
     questions = quiz.questions.all()
 
-    if request.method == "POST":
-        score = 0
-
-        for question in questions:
-            selected = request.POST.get(str(question.id))
-            if selected:
-                StudentAnswer.objects.create(
-                    attempt=attempt,
-                    question=question,
-                    selected_option=selected
-                )
-                if selected == question.correct_answer:
-                    score += question.marks
-
-        attempt.score = score
-        attempt.is_submitted = True
-        attempt.save()
-
-        return redirect("student_result", quiz.id)
+    request.session[f"quiz_{quiz.id}_start"] = timezone.now().isoformat()
 
     return render(request, "student/start_quiz.html", {
         "quiz": quiz,
-        "questions": questions
+        "questions": questions,
+        "duration": quiz.duration
     })
+
+
+
+@login_required
+def submit_quiz(request, quiz_id):
+    quiz = get_object_or_404(Quiz, id=quiz_id)
+
+    if request.method != "POST":
+        return redirect("student_dashboard")
+
+    # get student attempt
+    attempt, created = StudentQuizAttempt.objects.get_or_create(
+        student=request.user,
+        quiz=quiz
+    )
+
     
+    # if attempt.is_submitted:
+    #     return redirect("student_result", quiz.id)
+
+   
+    start_time_str = request.session.get(f"quiz_{quiz.id}_start")
+
+    if start_time_str:
+        start_time = timezone.datetime.fromisoformat(start_time_str)
+
+        
+        if timezone.is_naive(start_time):
+            start_time = timezone.make_aware(start_time)
+
+        end_time = start_time + timedelta(minutes=quiz.duration)
+
+        if timezone.now() > end_time:
+            print("⏰ Time exceeded! Auto-submitting...")
+
+    questions = quiz.questions.all()
+    score = 0
+
+    for question in questions:
+        selected = request.POST.get(str(question.id))
+
+        print(
+            "Question:",
+            question.id,
+            "Selected:",
+            selected,
+            "Correct:",
+            question.correct_answer
+        )
+
+        if selected:
+            StudentAnswer.objects.create(
+                attempt=attempt,
+                question=question,
+                selected_option=selected
+            )
+
+            if selected == question.correct_answer:
+                score += question.marks
+
+    attempt.score = score
+    attempt.is_submitted = True
+    attempt.save()
+
+   
+    if f"quiz_{quiz.id}_start" in request.session:
+        del request.session[f"quiz_{quiz.id}_start"]
+
+    return redirect("student_result", quiz.id)
 
 @login_required
 def student_result(request, quiz_id):
@@ -271,8 +323,16 @@ def student_result(request, quiz_id):
         student=request.user
     )
 
+    total = attempt.quiz.total_marks
+    score = attempt.score
+
+    percentage = 0
+    if total > 0:
+        percentage = (score / total) * 100
+
     return render(request, "student/result.html", {
-        "attempt": attempt
+        "attempt": attempt,
+        "percentage": round(percentage, 2)
     })
 
 @login_required

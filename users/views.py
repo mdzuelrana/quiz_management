@@ -90,31 +90,41 @@ def is_teacher(user):
 def is_student(user):
     return user.groups.filter(name='Student').exists()
 
-def activate_user(request,user_id,token):
+def activate_user(request, user_id, token):
+    print("Incoming user_id:", user_id)
     try:
-        user=User.objects.get(id=user_id)
-        if default_token_generator.check_token(user,token):
-            user.is_active=True
+        user = User.objects.get(id=user_id)
+
+        if user.is_active:
+            messages.info(request, "Account already activated.")
+            return redirect('sign_in')
+
+        if default_token_generator.check_token(user, token):
+            user.is_active = True
             user.save()
+            messages.success(request, "Account activated successfully!")
             return redirect('sign_in')
         else:
-            return HttpResponse('Invalid id or token')
+            return HttpResponse('Invalid or expired link')
+
     except User.DoesNotExist:
-        return HttpResponse('User not Found')
+        return HttpResponse('User not found')
     
 def sign_up(request):
-    if request.method=="POST":
-        form=CustomRegisterForm(request.POST)
+    if request.method == "POST":
+        form = CustomRegisterForm(request.POST)
         if form.is_valid():
-            user=form.save(commit=False)
-            user.set_password(form.cleaned_data.get('password'))
-            user.is_active=False
+            user = form.save(commit=True)
+
+             
             user.save()
-            messages.success(request,'A confirmation mail is sent. Please check your mail')
+
+            messages.success(request, 'Check your email to activate your account')
             return redirect('sign_in')
     else:
-        form=CustomRegisterForm()
-    return render(request,'registration/register.html',{"form":form})
+        form = CustomRegisterForm()
+
+    return render(request, 'registration/register.html', {"form": form})
     
 def sign_in(request):
     
@@ -129,6 +139,7 @@ def sign_in(request):
                 return redirect('teacher_dashboard')
             else:
                 return redirect('student_dashboard')
+            
     else:
         form=LoginForm()
     return render(request,'registration/login.html',{"form":form})

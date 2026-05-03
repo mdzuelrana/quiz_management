@@ -1,29 +1,121 @@
 {% extends "base.html" %}
-  {% block content %}
-    <div class="w-1/2 mx-auto my-9">
-        {% if form.non_field_errors %}
-            {% for error in form.non_field_errors %}
-                <li>{{error}}</li>
-            {% endfor %}
-        {% endif %}
-        <form action="" method="POST">
-            {% csrf_token %}
-            {% for field in form %}
-            <p>
-                <label for="field.id_for_label">{{field.label}}</label>
-                {{field}}
-                <ul>
-                    {% if field.errors %}
-                        {% for error in field.errors %}
-                            <li>{{error}}</li>
-                        {% endfor %}
-                    {% endif %}
-                </ul>
+{% load static %}
+
+{% block content %}
+
+<div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-100 to-indigo-200 rounded shadow px-4 m-6">
+
+    <div class="w-full max-w-2xl bg-white rounded-lg shadow-lg p-8 m-6">
+
+        <!-- HEADER -->
+        <div class="text-center mb-8">
+            <h2 class="text-3xl font-bold text-gray-800">
+                Create Your Account
+            </h2>
+            <p class="text-gray-500 mt-2">
+                Join Smart Quiz and start learning or teaching today 
             </p>
+        </div>
+
+        <!-- ERROR -->
+        {% if form.non_field_errors %}
+            <div class="bg-red-100 text-red-600 p-3 rounded mb-4">
+                {% for error in form.non_field_errors %}
+                    <p>{{ error }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <!-- FORM -->
+        <form method="POST" class="space-y-5">
+            {% csrf_token %}
+
+            <!-- NAME -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label class="text-sm font-semibold">First Name</label>
+                    {{ form.first_name }}
+                </div>
+
+                <div>
+                    <label class="text-sm font-semibold">Last Name</label>
+                    {{ form.last_name }}
+                </div>
+            </div>
+
+            <!-- USERNAME -->
+            <div>
+                <label class="text-sm font-semibold">Username</label>
+                {{ form.username }}
+            </div>
+
+            <!-- EMAIL -->
+            <div>
+                <label class="text-sm font-semibold">Email</label>
+                {{ form.email }}
+            </div>
+
+            <!-- ROLE SELECTION -->
+            <div>
+                <label class="text-sm font-semibold block mb-2">
+                    Select Your Role
+                </label>
+
+                <div class="flex gap-6">
+
+                    <label class="flex items-center gap-2 bg-gray-100 px-4 py-2 rounded cursor-pointer hover:bg-blue-100">
+                        {{ form.role.0.tag }}
+                        <span>Student</span>
+                    </label>
+
+                    <label class="flex items-center gap-2 bg-gray-100 px-4 py-2 rounded cursor-pointer hover:bg-blue-100">
+                        {{ form.role.1.tag }}
+                        <span>Teacher</span>
+                    </label>
+
+                </div>
+            </div>
+
+            <!-- PASSWORD -->
+            <div>
+                <label class="text-sm font-semibold">Password</label>
+                {{ form.password }}
+            </div>
+
+            <!-- CONFIRM PASSWORD -->
+            <div>
+                <label class="text-sm font-semibold">Confirm Password</label>
+                {{ form.confirm_password }}
+            </div>
+
+            <!-- ERRORS PER FIELD -->
+            {% for field in form %}
+                {% if field.errors %}
+                    <div class="text-red-500 text-sm">
+                        {% for error in field.errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
             {% endfor %}
-            <button class="bg-blue-500 text-white mt-6 w-full py-2 rounded" type="submit">Sign Up</button>
+
+            <!-- BUTTON -->
+            <button type="submit"
+                    class="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-semibold transition duration-200">
+                Sign Up
+            </button>
+
         </form>
+
+        <!-- FOOTER -->
+        <div class="text-center mt-6 text-sm text-gray-600">
+            Already have an account?
+            <a href="{% url 'sign_in' %}" class="text-blue-600 font-semibold hover:underline">
+                Login
+            </a>
+        </div>
+
     </div>
+</div>
 
-
-    {% endblock content %}
+{% endblock %}

@@ -2,30 +2,110 @@
 {% load quiz_extras %}
 
 {% block student_dash %}
-<h2 class="text-2xl font-bold mb-6">{{ quiz.title }}</h2>
 
-<form method="POST">
-    {% csrf_token %}
+<div class="max-w-4xl mx-auto">
 
-    {% for q in questions %}
-        <div class="mb-6 bg-gray-100 p-4 rounded">
-            <p class="font-semibold">{{ forloop.counter }}. {{ q.text }}</p>
+    <!-- HEADER -->
+    <div class="flex justify-between items-center mb-6">
+        <h2 class="text-2xl font-bold">{{ quiz.title }}</h2>
 
-            {% for opt in "ABCD" %}
-                <label class="block mt-2">
-                    <input type="radio"
-                           name="{{ q.id }}"
-                           value="{{ opt }}"
-                           required>
-                    {{ opt }}.
-                    {{ q|get_option:opt }}
-                </label>
-            {% endfor %}
+        <div class="bg-red-100 text-red-600 px-4 py-2 rounded font-semibold">
+            ⏱ Time Left: <span id="timer"></span>
         </div>
-    {% endfor %}
+    </div>
 
-    <button class="bg-green-500 text-white px-6 py-2 rounded">
-        Submit Quiz
-    </button>
-</form>
+    <!-- FORM -->
+    <form id="quizForm" method="POST" action="{% url 'submit_quiz' quiz.id %}">
+        {% csrf_token %}
+
+        {% for q in questions %}
+            <div class="mb-6 bg-white p-5 rounded shadow">
+
+                <p class="font-semibold mb-3">
+                    {{ forloop.counter }}. {{ q.text }}
+                </p>
+
+                {% for opt in "ABCD" %}
+                    <label class="block mt-2 cursor-pointer">
+                        <input type="radio"
+                               name="{{ q.id }}"
+                               value="{{ opt }}"
+                               required
+                               class="mr-2">
+                        <span class="font-medium">{{ opt }}.</span>
+                        {{ q|get_option:opt }}
+                    </label>
+                {% endfor %}
+
+            </div>
+        {% endfor %}
+
+        <!-- SUBMIT BUTTON -->
+        <button type="button"
+                onclick="handleSubmit()"
+                class="bg-green-500 hover:bg-green-600 text-white px-6 py-2 rounded shadow">
+            Submit Quiz
+        </button>
+
+    </form>
+
+</div>
+
+<!-- 🔥 SCRIPT -->
+<script>
+    let totalTime = {{ duration|default:0 }} * 60;
+    const timerElement = document.getElementById("timer");
+    const form = document.getElementById("quizForm");
+
+    let isSubmitting = false;
+
+    function updateTimer() {
+        let minutes = Math.floor(totalTime / 60);
+        let seconds = totalTime % 60;
+
+        if (timerElement) {
+            timerElement.innerText =
+                `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+        }
+
+        if (totalTime <= 0) {
+            clearInterval(timerInterval);
+
+            alert("⏰ Time is up! Submitting quiz...");
+
+            isSubmitting = true;
+            window.onbeforeunload = null;
+
+            form.submit();
+        }
+
+        totalTime--;
+    }
+
+    const timerInterval = setInterval(updateTimer, 1000);
+    updateTimer();
+
+    // ✅ Submit handler
+    function handleSubmit() {
+        isSubmitting = true;
+
+        // disable leave warning
+        window.onbeforeunload = null;
+
+        // prevent double click
+        const btn = event.target;
+        btn.disabled = true;
+        btn.innerText = "Submitting...";
+
+        form.submit();
+    }
+
+    // ⚠️ Prevent leaving during quiz
+    window.onbeforeunload = function () {
+        if (!isSubmitting) {
+            return "Quiz is running! Your answers may not be saved.";
+        }
+    };
+</script>
+
 {% endblock %}
