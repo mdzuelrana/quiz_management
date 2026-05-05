@@ -35,11 +35,13 @@ def edit_profile(request):
     if request.method == "POST":
         form = ProfileUpdateForm(
             request.POST,
+            request.FILES,  
             instance=request.user
         )
 
         if form.is_valid():
             form.save()
+            print(request.user.profile_image.url)
             messages.success(request, "Profile updated successfully!")
             return redirect("profile")
 
@@ -125,6 +127,7 @@ def sign_up(request):
         form = CustomRegisterForm()
 
     return render(request, 'registration/register.html', {"form": form})
+
     
 def sign_in(request):
     

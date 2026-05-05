@@ -248,7 +248,7 @@
     <div class="hero-left">
 
       <div class="avatar-ring">
-        <img src="{% if user.profile_image %}{{ user.profile_image.url }}{% else %}{% static 'images/default-avatar.png' %}{% endif %}"
+        <img src="{% if user.profile_image %}{{ user.profile_image.url }}{% else %}{% static 'profile_images/admin.jfif' %}{% endif %}"
              alt="{{ user.username }}'s avatar"
              class="avatar-img">
       </div>

@@ -1,5 +1,5 @@
 {% load static %}
-<header class="bg-white shadow-md">
+<header class="bg-white shadow-md ">
       <nav class="bg-black p-6">
         <div class="flex justify-between items-center">
           <a href="{% url 'landing_page' %}" class="text-xl font-bold text-white">Quiz Management</a>
@@ -7,7 +7,7 @@
             <a href="{% url 'landing_page' %}#home" class="text-white hover:text-white">Home</a>
             <a href="{% url 'landing_page' %}#features" class="text-white hover:text-white">Features</a>
             <a href="{% url 'landing_page' %}#how_it_works" class="text-white hover:text-white">How it works</a>
-            
+            <a href="{% url 'landing_page' %}#pricing" class="text-white hover:text-white">Pricing</a>
             <a href="{% url 'landing_page' %}#contact" class="text-white hover:text-white">Contact</a>
           </div>
           <div class="md:hidden">
@@ -15,20 +15,7 @@
               id="menu-toggle"
               class="text-white hover:text-gray-800 focus:outline-none"
             >
-              {% comment %} <svg
-                class="h-6 w-6"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M4 6h16M4 12h16m-7 6h7"
-                ></path>
-              </svg> {% endcomment %}
+              
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
               </svg>
@@ -49,16 +36,16 @@
           </div>
         </div>
         <div id="mobile-menu" class="md:hidden hidden mt-4">
-          <a href="#" class="block py-2 text-gray-600 hover:text-gray-800"
+          <a href="{% url 'landing_page' %}#features" class="block py-2 text-gray-600 hover:text-gray-800"
             >Features</a
           >
-          <a href="#" class="block py-2 text-gray-600 hover:text-gray-800"
+          <a href="{% url 'landing_page' %}#pricing" class="block py-2 text-gray-600 hover:text-gray-800"
             >Pricing</a
           >
-          <a href="#" class="block py-2 text-gray-600 hover:text-gray-800"
+          <a href="{% url 'landing_page' %}#about" class="block py-2 text-gray-600 hover:text-gray-800"
             >About</a
           >
-          <a href="#" class="block py-2 text-gray-600 hover:text-gray-800"
+          <a href="{% url 'landing_page' %}#contact" class="block py-2 text-gray-600 hover:text-gray-800"
             >Contact</a
           >
           <a href="{% url 'sign_in' %}" class="block py-2 text-gray-600 hover:text-gray-800"
