@@ -77,6 +77,7 @@ quiz_management/
 │
 ├── manage.py
 └── requirements.txt
+
 🧩 OOP Concepts Used
 
 This project follows Object-Oriented Programming principles using Django.
@@ -84,18 +85,21 @@ This project follows Object-Oriented Programming principles using Django.
 ✅ Inheritance
 class CustomUser(AbstractUser):
 CustomUser inherits from Django's AbstractUser
+
 ✅ Encapsulation
 Models encapsulate related data and behaviors
 
 Example:
 
 class Quiz(models.Model):
+
 ✅ Abstraction
 Django Forms abstract validation and rendering logic
 
 Example:
 
 class QuizForm(forms.ModelForm):
+
 ✅ Reusability
 StyledFormMixin used for reusable form styling
 
@@ -118,10 +122,12 @@ Result Page
 
 
 
-⚙️ Installation Guide
-1️⃣ Clone Repository
+⚙️ ###Installation Guide
+
+1️⃣ ####Clone Repository
 git clone https://github.com/your-username/smart-quiz.git
-2️⃣ Create Virtual Environment
+
+2️⃣ ####Create Virtual Environment
 python -m venv venv
 
 Activate:
@@ -130,14 +136,18 @@ Windows
 venv\Scripts\activate
 Linux/Mac
 source venv/bin/activate
-3️⃣ Install Dependencies
+
+3️⃣ ####Install Dependencies
 pip install -r requirements.txt
-4️⃣ Run Migrations
+
+4️⃣ ####Run Migrations
 python manage.py makemigrations
 python manage.py migrate
-5️⃣ Create Superuser
+
+5️⃣ ####Create Superuser
 python manage.py createsuperuser
-6️⃣ Run Server
+
+6️⃣ ####Run Server
 python manage.py runserver
 🔑 Default Roles
 Role	Access
